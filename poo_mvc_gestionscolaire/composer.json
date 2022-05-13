@@ -1,0 +1,11 @@
+{
+    "name": "lenovo/poo_mvc_gestionscolaire",
+    "autoload": {
+        "psr-4": {
+            "App\\Models\\": "models/",
+            "App\\Core\\": "core/",
+            "App\\Controllers\\": "controllers/"
+        }
+    },
+    "require": {}
+}

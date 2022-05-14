@@ -6,20 +6,23 @@ class Etudiant extends User{
     //Fonctions naviagtionnelles
 
     public function inscriptions():array{
-        $sql="select i.* from user u,inscriptions i where i.user_id=u.id and u.id={$this->id}
+        $sql="select i.* from user u,inscriptions i where i.user_id=u.id and u.id=?
         and role like 'ROLE_ETUDIANT";
+        parent::selectWhere($sql,[$this->id]);
         return [];
     }
 
     public function cours():Cours{
-        $sql="select c.* from cours c, user u where u.cours_id=c.id and u.id={$this->id}  
+        $sql="select c.* from cours c, user u where u.cours_id=c.id and u.id=?
         and role like 'ROLE_ETUDIANT";
+        parent::selectWhere($sql,[$this->id],true);
         return new Cours;
     }
 
     public function reinscriptions():array{
-        $sql="select re.* from reinscriptions re,user u where re.user_id=u.id and u.id={$this->id}
+        $sql="select re.* from reinscriptions re,user u where re.user_id=u.id and u.id=?
         and role like 'ROLE_ETUDIANT";
+        parent::selectWhere($sql,[$this->id]);
         return [];
     }
     
@@ -27,7 +30,8 @@ class Etudiant extends User{
     //constructeur
      public function __construct()
     {
-        $this->role="ROLE_ETUDIANT";
+        parent::$role="ROLE_ETUDIANT";
+        
     }
 
     /**
@@ -57,6 +61,10 @@ class Etudiant extends User{
     public function setRole($role)
     {
         return $this;
+    }
+    public static function selectAll(){
+        $sql="select * from ? where role like ? ";
+        self::database()->executeSelect($sql,[parent::$table,parent::$role]);
     }
 
 }

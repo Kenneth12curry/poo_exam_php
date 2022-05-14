@@ -1,13 +1,13 @@
 <?php
 namespace App\Models;
 use App\Core\Model;
-class User extends Model{
+abstract class User extends Model{
 
     //attributs d'instances
     protected int $id;
     protected string $login;
     protected string $password;
-    protected string $role;
+    protected static string $role;
     protected string $nomComplet;
     //attributs static
 
@@ -15,7 +15,7 @@ class User extends Model{
     //constructeur
     public function __construct()
     {
-        self::$table="user";
+        parent::$table="user";
     }
     //Getters
 
@@ -113,10 +113,17 @@ class User extends Model{
      *
      * @return  self
      */ 
+
     public function setNomComplet($nomComplet)
     {
         $this->nomComplet = $nomComplet;
 
         return $this;
     }
+
+    public function insert()
+    {
+        
+    }
+
 }

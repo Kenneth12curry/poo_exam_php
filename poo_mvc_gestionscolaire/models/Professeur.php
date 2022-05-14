@@ -4,7 +4,7 @@ class Professeur extends User{
     private string $grade;
 
 
-
+    
     //oneToMany=>Cours
     public function cours():array{
         return [];
@@ -19,7 +19,8 @@ class Professeur extends User{
 
      //onetoone=>Adresse
      public function adresse():Adresse{
-         $ql="select ville,quartier from user where user.id={$this->id} and role like 'ROLE_PROFESSEUR";
+         $sql="select ville,quartier from user where user.id=? and role like 'ROLE_PROFESSEUR";
+         parent::selectWhere($sql,[$this->id],true);
         return new Adresse();
     }
 
@@ -32,7 +33,8 @@ class Professeur extends User{
     //Méthodes
     public function __construct()
     {
-        $this->role="ROLE_PROFESSEUR";
+        parent::$role="ROLE_PROFESSEUR";
+        
     }
 
     /**
@@ -63,5 +65,10 @@ class Professeur extends User{
     {
        
         return $this;
+    }
+
+    public static function selectAll(){
+        $sql="select * from ? where role like ? ";
+        self::database()->executeSelect($sql,[parent::$table,parent::$role]);
     }
 }

@@ -14,13 +14,14 @@ class Reinscriptions extends Model{
     public function etudiants():Etudiant{
         $sql="select u.* from reinscriptions re,user u where re.user_id=u.id and re.id={$this->id}
         and role like 'ROLE_ETUDIANT";
+        parent::selectWhere($sql,[$this->id],true);
         return new Etudiant;
     }
     
     //constructeur 
     public function __construct()
     {
-        
+        parent::$table="réinscriptions";
     }
 
     /**

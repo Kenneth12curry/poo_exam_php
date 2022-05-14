@@ -8,20 +8,22 @@ class Module extends Model{
 
     //OneToMany=>Cours
     public function cours():array{
-        $sql="select c.* from cours c,module m where c.module_id=m.id and m.id={$this->id}";
+        $sql="select c.* from cours c,module m where c.module_id=m.id and m.id=?";
+        parent::selectWhere($sql,[$this->id]);
         return [];
     }
 
     public function professeur():array{
-        $sql="select u.* from user u,professeur_module pm where pm.professeur_id=u.id and pm.module_id={$this->id} 
+        $sql="select u.* from user u,professeur_module pm where pm.professeur_id=u.id and pm.module_id=? 
         and role like 'ROLE_PROFESSEUR";
+        parent::selectWhere($sql,[$this->id]);
         return [];
     }
 
     //Méthodes
     public function __construct()
     {
-        self::$table="module";
+        parent::$table="module";
     }
 
     /**

@@ -9,20 +9,22 @@ class Inscriptions extends Model{
 
     //Fonctions navigationnelles
     public function etudiants():Etudiant{
-        $sql="select u.* from user u,inscriptions i where i.user_id=u.id and i.id={$this->id}
+        $sql="select u.* from user u,inscriptions i where i.user_id=u.id and i.id=?
         and role like 'ROLE_ETUDIANT";
+        parent::selectWhere($sql,[$this->id],true);
         return new Etudiant;
     }
 
     public function classes():Classe{
-        $sql="select cl.* from classe cl,inscriptions i where i.classe_id=cl.id and i.id={$this->id}";
+        $sql="select cl.* from classe cl,inscriptions i where i.classe_id=cl.id and i.id=?";
+        parent::selectWhere($sql,[$this->id],true);
         return new Classe;
     }
     
     //constructeur
     public function __construct()
     {
-         
+        self::$table="inscriptions";
     }
 
     /**

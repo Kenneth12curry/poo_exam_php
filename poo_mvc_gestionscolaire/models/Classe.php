@@ -11,18 +11,21 @@ class Classe extends Model{
     //Fonctions Navigationnelles => Fonctions issues des associations
     //OneToMany=>Cours
     public function cours():array{
-        $sql="select c.* from classe cl,cours c where c.classe_id=cl.id and cl.id={$this->id}";
+        $sql="select c.* from classe cl,cours c where c.classe_id=cl.id and cl.id=?";
+        parent::selectWhere($sql,[$this->id],true);
         return [];
     }
 
     public function inscriptions():array{
-        $sql="select i.* from classe cl,inscriptions i where i.classe_id=cl.id and cl.id={$this->id}";
+        $sql="select i.* from classe cl,inscriptions i where i.classe_id=cl.id and cl.id=?";
+        parent::selectWhere($sql,[$this->id]);
         return [];
     }
+    
     //Méthodes
     public function __construct()
     {
-        self::$table="classe";
+        parent::$table="classe";
     }
     
 

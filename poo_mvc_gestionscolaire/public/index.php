@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\RP;
-use App\Models\Etudiant;
+require("../vendor/autoload.php");
 //frontcontroller
 //url localhost:8000
 
@@ -27,6 +27,13 @@ $user->setPassword("douvewane");
 // une méthode abstraite se trouve forcement dans une classe abstraite
 //Dans une classe abstraite on peut avoir de méthodes abstraites ou concètes
 //Si une classe abstraite ne contient de que des méthodes abstraites il faut la traduire en interface
-
+/*use App\Models\RP;
+use App\Core\database;
+use App\Core\Database;
+use App\Models\Etudiant;
 $rp=new RP();
 $etudiant=new Etudiant();
+*/
+
+$rp=new RP();
+

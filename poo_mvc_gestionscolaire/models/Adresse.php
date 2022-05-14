@@ -15,7 +15,7 @@ class Adresse extends Model{
     //Méthodes
     public function __construct()
     {
-        self::$table="user";
+        parent::$table="user";
     }
     
 

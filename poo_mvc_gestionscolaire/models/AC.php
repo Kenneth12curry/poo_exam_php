@@ -6,7 +6,7 @@ class AC extends User {
     //Méthodes cosntructeur
     public function __construct()
     {
-        $this->role="ROLE_AC";
+        parent::$role="ROLE_AC";
     }
     
 
@@ -38,4 +38,10 @@ class AC extends User {
     {
         return $this;
     }
+
+    public static function selectAll(){
+        $sql="select * from ? whre role like ? ";
+        self::database()->executeSelect($sql,[parent::$table,parent::$role]);
+    }
+    
 }

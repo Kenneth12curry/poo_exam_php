@@ -16,25 +16,28 @@ class Cours extends Model{
     }
     //manytoone=>Professeur
     public function professeur():Professeur{
-        $sql="select u.* from user u,cours c where c.professeur_id=u.id and c.id={$this->id}
+        $sql="select u.* from user u,cours c where c.professeur_id=u.id and c.id=?
         and role like 'ROLE_PROFESSEUR";
+        parent::selectWhere($sql,[$this->id],true);
         return new Professeur;
     }
      //manytoone=>Module
      public function module():Module{
-         $sql="select m.* from cours c,module m where c.module_id=m.id and c.id={$this->id}";
+         $sql="select m.* from cours c,module m where c.module_id=m.id and c.id=?";
+         parent::selectWhere($sql,[$this->id],true);
         return new Module;
     }
     public function etudiants():array{
-        $sql="select u.* from user u,cours c where c.id=u.cours_id and c.id={$this->id} 
+        $sql="select u.* from user u,cours c where c.id=u.cours_id and c.id=?
         and role like 'ROLE_ETUDIANT";
+        parent::selectWhere($sql,[$this->id]);
         return [];
     }
     
     //Méthodes
     public function __construct()
     {
-        self::$table="cours";
+        parent::$table="cours";
     }
     
 

@@ -4,7 +4,13 @@ class RP extends User{
 
     public function __construct()
     {
-        $this->role="ROLE_RP";
+        parent::$role="ROLE_RP";
+    }
+
+
+    public static function selectAll(){
+        $sql="select * from ? where role like ? ";
+        self::database()->executeSelect($sql,[parent::$table,parent::$role]);
     }
 
     //Redefinition => evolution

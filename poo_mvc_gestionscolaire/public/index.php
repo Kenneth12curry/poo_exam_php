@@ -1,39 +1,98 @@
 <?php
+/**
+ *  url:  localhost:8000/uri 
+ * uri => uniform ressource identfier => controller/use case
+ * controller => classe
+ *      use case   uri
+ *  --  ajouter => POST  localhost:8000/classe-add    
+ *   -- modifier => POST localhost:8000/classe-up
+ * --   lister=> GET     localhost:8000/classe
+ *   -- supprimer =>  GET    localhost:8000/classe-del
+ * Controller => cours
+ *      use case
+ *  --  ajouter => cours-add
+ *   -- modifier => cours-up
+ * --   lister=> cours
+ *   -- supprimer => cours-del
+ */
 
-use App\Models\RP;
-require("../vendor/autoload.php");
-//frontcontroller
-//url localhost:8000
 
-//Chargemment Manual
+require_once("../vendor/autoload.php");
+require_once('./../core/constantes.php');
+require_once('./../core/fonctions.php');
+
+use App\Controllers\SecuriteController;
+use App\Controllers\ClasseController;
+use App\Core\Router;
+use App\Exceptions\RouteNotFoundException;
+
+$router=new Router();
+
+//Enregister une route  : uri associe a un Controller et une action
+
+//$router->route("uri",[controller,action]);
+
+$router->route("/",[SecuriteController::class,"connexion"]);
+$router->route("/logout",[SecuriteController::class,"deconnexion"]);
+$router->route("/classe",[ClasseController::class,"lister"]);
+$router->route("/classe-add",[ClasseController::class,"ajouter"]);
+$router->route("/classe-up",[ClasseController::class,"modifier"]);
+$router->route("/classe-del",[ClasseController::class,"supprimer"]);
+
+try {
+  $router->resolve();
+} catch (RouteNotFoundException $ex) {
+   die($ex->message);
+}
+
+
+// Une variable d'une classe
+//Manipuler un Objet=>
+//1-charger le fichier qui contient la classe
 //require_once("../models/User.php");
+//require_once("../models/RP.php");
+//2-Instancier l'objet
+//$user=new User();// fonction qui s'appelle le constructeur => __construct()
+//Donner un etat a l'objet=> donnez une valeur a ses attributs
+//-> Operateur de portee d'instance
+//$user-> : interface de la classe(Ensemble des methodes ou attributs publics )
+//$user->setId(1);
 
-/*user=new user();
-$user->setId(1);
-$user->setLogin("douve@gmail.com");
-$user->setPassword("douvewane");
+//$cours=new Cours();
 
-*/
-//Autloading=>Chargement automatique
-//Namespace => Package: ensembe de classe du même domaine
-//Namespace repertoire virtuel utiliser pour ranger nos clases
-//namespace Models=>ranger mes classes Models
-//namespace Core(configuration,Toutes les classes reutilisables)
-//namespace Controllers=>ranger mes classes controllers
-//Dossier Core =>tous les fichiers qui ne changent pas et réutilisables
-//Composer=>Gestionnaires de Dépendances pour php
-//Dépendance=>dossier Core est une dépendance(classes réutilisables)
-//Hub de dependance=>site beaucoup de dependance suivant le langage
-// une méthode abstraite se trouve forcement dans une classe abstraite
-//Dans une classe abstraite on peut avoir de méthodes abstraites ou concètes
-//Si une classe abstraite ne contient de que des méthodes abstraites il faut la traduire en interface
+//Autoloading => Chargement automatique
+ //Namespace => Packadge : ensemble de classe du meme domaine
+ //Namespace repertoire virtuel utiliser pour ranger nos classes
+   //namespace Model => ranger mes classes Models
+   //namespace Controllers => ranger mes classes controllers
+   //namespace Core(Configuration,Toutes les Classes Reutilisables)
+//Composer : Gestionnaires de Dependances
+    //Gestionnaire => Telecharger + Configurer une dependance dans votre projet
+    //Dependance => dossier core est une dependance(classes reutilisables) 
+        //https://packagist.org/
+        //Hub de dependance =>site beaucoup de dependance suivant le langage
+
+/*use App\Models\Module;
+
+use App\Core\Request;
+use App\Models\RP;
+use App\Core\DataBase;
+use App\Exceptions\BdConnexionException;
+use App\Controllers\ClasseController;
+$rp =new RP(); */
+
 /*use App\Models\RP;
-use App\Core\database;
-use App\Core\Database;
-use App\Models\Etudiant;
-$rp=new RP();
-$etudiant=new Etudiant();
-*/
+$rp =new RP();
+$rp->setLogin("carine@gmail.com");
+$rp->setPassword("rp");
+$rp->setNomComplet("carine");
+$rp->insert();*/
 
-$rp=new RP();
+/*echo "<pre>";
+RP::selectAll();
+var_dump(RP::selectById(1));
+echo "</pre>"; */
+
+
+
 

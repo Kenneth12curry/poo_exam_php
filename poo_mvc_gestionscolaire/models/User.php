@@ -121,9 +121,12 @@ abstract class User extends Model{
         return $this;
     }
 
-    public function insert()
-    {
-        
+
+    public function insert(){
+        $sql="INSERT INTO ".parent::$table." (login,password,role,nom_complet)
+        VALUES(?,?,?,?);";
+        return parent::database()->executeUpdate($sql,[$this->login,$this->password,self::$role,$this->nomComplet]);
     }
+    
 
 }

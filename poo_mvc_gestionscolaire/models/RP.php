@@ -3,7 +3,8 @@ namespace App\Models;
 class RP extends User{
 
     public function __construct()
-    {
+    {   
+        parent::__construct();
         parent::$role="ROLE_RP";
     }
 
@@ -28,4 +29,5 @@ class RP extends User{
         return $this;
     }
 
+  
 }   

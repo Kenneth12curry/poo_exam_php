@@ -7,18 +7,22 @@ class Professeur extends User{
     
     //oneToMany=>Cours
     public function cours():array{
+        $sql="select c.* from cours c,user u where u.cours_id=c.id and u.id=? and
+        role like 'ROLE_PROFESSEUR";
+        parent::selectWhere($sql,[$this->id]);
         return [];
     }
 
     //ManyToMany=>modules
     public function modules():array{
         $sql="select m.* from module m ,professeur_module pm where m.id=pm.module_id 
-        and pm.professeur_id={$this->id}";
+        and pm.professeur_id=?";
+        parent::selectWhere($sql,[$this->id]);
         return [];
     }
 
      //onetoone=>Adresse
-     public function adresse():Adresse{
+    public function adresse():Adresse{
          $sql="select ville,quartier from user where user.id=? and role like 'ROLE_PROFESSEUR";
          parent::selectWhere($sql,[$this->id],true);
         return new Adresse();
@@ -33,6 +37,7 @@ class Professeur extends User{
     //Méthodes
     public function __construct()
     {
+        parent::__construct();
         parent::$role="ROLE_PROFESSEUR";
         
     }
@@ -71,4 +76,12 @@ class Professeur extends User{
         $sql="select * from ? where role like ? ";
         self::database()->executeSelect($sql,[parent::$table,parent::$role]);
     }
+
+    public function insert(){
+        $sql="INSERT INTO ".parent::$table." (login,password,role,nom_complet,grade,ville,quartier)
+        VALUES(?,?,?,?);";
+        return parent::database()->executeUpdate($sql,[$this->login,$this->password,self::$role,
+        $this->nomComplet,$this->ville,$this->quartier]);
+    }
+    
 }

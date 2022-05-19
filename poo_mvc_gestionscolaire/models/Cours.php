@@ -11,7 +11,8 @@ class Cours extends Model{
     //Fonctions navigationnelles
     //onetomany=>Classe
     public function classe():Classe{
-        $sql="select cl.* from classe cl,cours c where c.classe_id=cl.id and c.id={$this->id}";
+        $sql="select cl.* from classe cl,cours c where c.classe_id=cl.id and c.id=?";
+        parent::selectWhere($sql,[$this->id],true);
         return new Classe;
     }
     //manytoone=>Professeur
@@ -119,5 +120,11 @@ class Cours extends Model{
         $this->heureFin = $heureFin;
 
         return $this;
+    }
+
+    public function insert(){
+        $sql="INSERT INTO ".parent::$table." (date_cours,heure_debut,heure_fin)
+        VALUES(?,?,?,?);";
+        return parent::database()->executeUpdate($sql,[$this->id,$this->dateCours,$this->heureDebut,$this->heureFin]);
     }
 }

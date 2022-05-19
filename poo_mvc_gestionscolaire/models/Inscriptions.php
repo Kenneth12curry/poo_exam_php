@@ -2,7 +2,7 @@
 namespace App\Models;
 use App\Core\Model;
 class Inscriptions extends Model{
-
+    private int $id;
     //classe Php \namespace racine
     private \DateTime $dateInsc;
     private int $annee;
@@ -24,7 +24,7 @@ class Inscriptions extends Model{
     //constructeur
     public function __construct()
     {
-        self::$table="inscriptions";
+        parent::$table="inscriptions";
     }
 
     /**
@@ -66,4 +66,11 @@ class Inscriptions extends Model{
 
         return $this;
     }
+
+    public function insert(){
+        $sql="INSERT INTO ".parent::$table." (date_ins,anneeins)
+        VALUES(?,?,?,?);";
+        return parent::database()->executeUpdate($sql,[$this->dateInsc,$this->annee]);
+    }
+    
 }

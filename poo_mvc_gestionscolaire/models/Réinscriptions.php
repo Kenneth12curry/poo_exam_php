@@ -6,13 +6,13 @@ class Reinscriptions extends Model{
     private string $nomEtudiant;
     private string $filiere;
     //classe Php \namespace racine
-    private \DateTime $dateRéins;
+    private \DateTime $dateReins;
 
 
     //Fonctions navigationnelles;
 
     public function etudiants():Etudiant{
-        $sql="select u.* from reinscriptions re,user u where re.user_id=u.id and re.id={$this->id}
+        $sql="select u.* from reinscriptions re,user u where re.user_id=u.id and re.id=?
         and role like 'ROLE_ETUDIANT";
         parent::selectWhere($sql,[$this->id],true);
         return new Etudiant;
@@ -21,7 +21,7 @@ class Reinscriptions extends Model{
     //constructeur 
     public function __construct()
     {
-        parent::$table="réinscriptions";
+        parent::$table="reinscriptions";
     }
 
     /**
@@ -89,7 +89,7 @@ class Reinscriptions extends Model{
      */ 
     public function getDateRéins()
     {
-        return $this->dateRéins;
+        return $this->dateReins;
     }
 
     /**
@@ -97,10 +97,18 @@ class Reinscriptions extends Model{
      *
      * @return  self
      */ 
-    public function setDateRéins($dateRéins)
+    public function setDateRéins($dateReins)
     {
-        $this->dateRéins = $dateRéins;
+        $this->dateReins = $dateReins;
 
         return $this;
+    }
+
+    public function insert(){
+        $sql="INSERT INTO ".parent::$table." (id,nom_etudiant,filiere,date_reins)
+        VALUES(?,?,?,?);";
+        return parent::database()->executeUpdate($sql,[$this->id,$this->nomEtudiant,
+        $this->filiere,$this->dateReins]);
+        
     }
 }

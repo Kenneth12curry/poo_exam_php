@@ -6,6 +6,7 @@ class AC extends User {
     //Méthodes cosntructeur
     public function __construct()
     {
+        parent::__construct();
         parent::$role="ROLE_AC";
     }
     
@@ -40,8 +41,14 @@ class AC extends User {
     }
 
     public static function selectAll(){
-        $sql="select * from ? whre role like ? ";
+        $sql="select * from ? where role like ? ";
         self::database()->executeSelect($sql,[parent::$table,parent::$role]);
+    }
+
+    public function insert(){
+        $sql="INSERT INTO ".parent::$table." (login,password,role,nom_complet,email)
+        VALUES (?,?,?,?,?);";
+        return parent::database()->executeUpdate($sql,[$this->login,$this->password,parent::$role,$this->nomComplet,$this->email]);
     }
     
 }

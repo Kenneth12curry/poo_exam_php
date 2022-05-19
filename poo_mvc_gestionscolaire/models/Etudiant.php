@@ -30,6 +30,7 @@ class Etudiant extends User{
     //constructeur
      public function __construct()
     {
+        parent::__construct();
         parent::$role="ROLE_ETUDIANT";
         
     }
@@ -66,5 +67,12 @@ class Etudiant extends User{
         $sql="select * from ? where role like ? ";
         self::database()->executeSelect($sql,[parent::$table,parent::$role]);
     }
+
+    public function insert(){
+        $sql="INSERT INTO ".parent::$table." (login,password,role,nom_complet,tel)
+        VALUES(?,?,?,?);";
+        return parent::database()->executeUpdate($sql,[$this->login,$this->password,self::$role,$this->nomComplet,$this->tel]);
+    }
+    
 
 }

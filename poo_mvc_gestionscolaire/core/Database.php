@@ -7,7 +7,6 @@ class Database{
 
         try{
             $this->pdo=new \PDO("mysql:dbname=gestion_scolaire;host=127.0.0.1","root","");
-            die("Bienvenue");
         }catch(\Exception $th){
             die("Erreur Connexion->veuillez contacter votre administrateur");
         }
@@ -20,7 +19,7 @@ class Database{
     public function executeUpdate(string $sql,array $data=[]){
         $this->openConnexion();
         //sql="select * from classe where id=? and role like ?"
-        $stm=$this->pdo->prepare($$sql);
+        $stm=$this->pdo->prepare($sql);
         $stm->execute($data);
         $result=$stm->rowCount();
         $this->closeConnexion();

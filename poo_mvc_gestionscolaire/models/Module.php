@@ -65,4 +65,11 @@ class Module extends Model{
 
         return $this;
     }
+
+    public function insert(){
+        $sql="INSERT INTO ".parent::$table." (id,libelle)
+        VALUES(?,?,?,?);";
+        return parent::database()->executeUpdate($sql,[$this->id,$this->libelle]);
+    }
+    
 }

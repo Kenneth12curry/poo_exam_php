@@ -12,7 +12,7 @@ class Classe extends Model{
     //OneToMany=>Cours
     public function cours():array{
         $sql="select c.* from classe cl,cours c where c.classe_id=cl.id and cl.id=?";
-        parent::selectWhere($sql,[$this->id],true);
+        parent::selectWhere($sql,[$this->id]);
         return [];
     }
 
@@ -108,4 +108,12 @@ class Classe extends Model{
 
         return $this;
     }
+
+    public function insert(){
+        $sql="INSERT INTO ".parent::$table." (id,libelle,filiere,niveau)
+        VALUES(?,?,?,?);";
+        return parent::database()->executeUpdate($sql,[$this->id,$this->libelle,$this->filiere,$this->niveau]);
+    }
+    
+
 }
